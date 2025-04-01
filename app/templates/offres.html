@@ -4,32 +4,51 @@
 
 {% block content %}
     <div class="container">
-        <h2 class="logo mb-3" style="display: inline-block;">Offres d'emploi</h2>
+        <h2 class="logo mb-3">Offres d'emploi</h2>
 
-{#        <form method="GET" class="form">#}
+{#        <form method="GET" class="form mb-4">#}
 {#            <div class="form-group">#}
-{#                <input type="text" name="keyword" placeholder="Rechercher par mot-clé..."#}
-{#                       value="{{ request.args.get('keyword', '') }}" class="form-input">#}
+{#                <input type="text" name="keyword" placeholder="Rechercher par mot-clé, entreprise ou localisation..."#}
+{#                       value="{{ keyword }}" class="form-input">#}
 {#            </div>#}
 {#            <button type="submit" class="form-button">Rechercher</button>#}
 {#        </form>#}
 
+        {% if recommended_offers %}
+        <div class="recommended-section mb-5">
+            <h3 class="mb-3">Offres recommandées pour vous</h3>
+            <div class="offers-grid">
+                {% for offre in recommended_offers %}
+                    <div class="card recommended-card">
+                        <h3 class="offer-title">{{ offre['Title'] }}</h3>
+                        <p><strong>Entreprise:</strong> {{ offre['Company'] }}</p>
+                        <p><strong>Localisation:</strong> {{ offre['Location'] }}</p>
+                        <p><strong>Posté:</strong> {{ offre['Posted Time'] }}</p>
+                        <p><strong>Type:</strong> {{ offre['Employment Type'] }}</p>
+                        <a href="{{ offre['Job URL'] }}" target="_blank" class="btn btn-primary">Voir l'offre</a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        <h3 class="mb-3">{% if keyword %}Résultats pour "{{ keyword }}"{% else %}Toutes les offres{% endif %}</h3>
+
         <div class="offers-grid">
             {% for offre in offres %}
                 <div class="card">
-                    <h3 class="offer-title">{{ offre['Title'] }}</h3>  <!-- Title -->
-                    <p><strong>Entreprise:</strong> {{ offre['Company'] }}</p>  <!-- Company -->
-                    <p><strong>Localisation:</strong> {{ offre['Location'] }}</p>  <!-- Location -->
-                    <p><strong>Posté:</strong> {{ offre['Posted Time'] }}</p>  <!-- Posted Time -->
-                    <p><strong>Type:</strong> {{ offre['Employment Type'] }}</p>  <!-- Employment Type -->
-                    <a href="{{ offre['Job URL'] }}" target="_blank" class="btn">Voir l'offre</a>  <!-- Job URL -->
+                    <h3 class="offer-title">{{ offre['Title'] }}</h3>
+                    <p><strong>Entreprise:</strong> {{ offre['Company'] }}</p>
+                    <p><strong>Localisation:</strong> {{ offre['Location'] }}</p>
+                    <p><strong>Posté:</strong> {{ offre['Posted Time'] }}</p>
+                    <p><strong>Type:</strong> {{ offre['Employment Type'] }}</p>
+                    <a href="{{ offre['Job URL'] }}" target="_blank" class="btn">Voir l'offre</a>
                 </div>
             {% else %}
                 <div class="card">
                     <p>Aucune offre trouvée.</p>
                 </div>
             {% endfor %}
-
         </div>
     </div>
 {% endblock %}
