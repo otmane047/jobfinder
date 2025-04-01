@@ -12,13 +12,16 @@
 <header class="header">
     <div class="header-container container">
         <a href="{{ url_for('job_bp.index') }}" class="logo">JobFinder</a>
-        {% if session.user %}
-            <nav class="nav">
+
+        <nav class="nav">
+            {% if session.user %}
                 <a href="{{ url_for('chat_bp.chat') }}" class="nav-link">Chatbot</a>
                 <a href="{{ url_for('job_bp.get_offers') }}" class="nav-link">Offres</a>
                 <a href="{{ url_for('auth_bp.logout') }}" class="nav-link">Déconnexion</a>
-            </nav>
-        {% endif %}
+            {% endif %}
+        <a href="{{ url_for('job_bp.get_offers_api') }}" class="nav-link">API</a>
+
+        </nav>
     </div>
 </header>
 

@@ -6,13 +6,13 @@
     <div class="container">
         <h2 class="logo mb-3" style="display: inline-block;">Offres d'emploi</h2>
 
-        <form method="GET" class="form">
-            <div class="form-group">
-                <input type="text" name="keyword" placeholder="Rechercher par mot-clé..."
-                       value="{{ request.args.get('keyword', '') }}" class="form-input">
-            </div>
-            <button type="submit" class="form-button">Rechercher</button>
-        </form>
+{#        <form method="GET" class="form">#}
+{#            <div class="form-group">#}
+{#                <input type="text" name="keyword" placeholder="Rechercher par mot-clé..."#}
+{#                       value="{{ request.args.get('keyword', '') }}" class="form-input">#}
+{#            </div>#}
+{#            <button type="submit" class="form-button">Rechercher</button>#}
+{#        </form>#}
 
         <div class="offers-grid">
             {% for offre in offres %}
