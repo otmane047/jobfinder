@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}JobFinder{% endblock %}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    {% block styles %}{% endblock %}
+</head>
+<body>
+<header class="header">
+    <div class="header-container container">
+        <a href="{{ url_for('job_bp.index') }}" class="logo">JobFinder</a>
+        {% if session.user %}
+            <nav class="nav">
+                <a href="{{ url_for('chat_bp.chat') }}" class="nav-link">Chatbot</a>
+                <a href="{{ url_for('job_bp.get_offers') }}" class="nav-link">Offres</a>
+                <a href="{{ url_for('auth_bp.logout') }}" class="nav-link">Déconnexion</a>
+            </nav>
+        {% endif %}
+    </div>
+</header>
+
+<main class="container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+</main>
+
+<script>
+    // Session timeout (59 minutes)
+    let inactivityTimer;
+
+    function resetTimer() {
+        clearTimeout(inactivityTimer);
+        inactivityTimer = setTimeout(() => {
+            fetch('{{ url_for("auth_bp.logout") }}', {method: 'POST'})
+                .then(() => window.location.href = '{{ url_for("auth_bp.login") }}');
+        }, 3540000);
+    }
+
+    document.addEventListener('mousemove', resetTimer);
+    document.addEventListener('keypress', resetTimer);
+    window.addEventListener('load', resetTimer);
+</script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

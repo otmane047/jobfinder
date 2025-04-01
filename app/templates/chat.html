@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block title %}Chatbot CV - {{ session.user }}{% endblock %}
+
+{% block content %}
+    <div class="chat-container">
+        <div class="chat-header">
+            <h2 class="logo">Assistant CV</h2>
+            <p>Je vais vous aider à créer votre profil professionnel</p>
+        </div>
+
+        <div class="progress-container">
+            <div class="progress-bar" id="cv-progress"></div>
+            <div class="progress-text" id="progress-text">0% complété</div>
+        </div>
+
+        <div class="chatbox">
+            <div class="messages" id="messages">
+
+
+            </div>
+
+            <form class="message-form" id="chat-form">
+                <input type="text" class="message-input" id="user-input" placeholder="Tapez votre réponse..."
+                       autocomplete="off" required>
+                <button type="submit" class="message-button">Envoyer</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Éléments DOM
+            const chatForm = document.getElementById('chat-form');
+            const userInput = document.getElementById('user-input');
+            const messagesContainer = document.getElementById('messages');
+            const progressBar = document.getElementById('cv-progress');
+            const progressText = document.getElementById('progress-text');
+
+            // Connexion Socket.IO
+            const socket = io();
+
+            // Gestion de la soumission du formulaire
+            chatForm.addEventListener('submit', function (e) {
+                e.preventDefault();
+                const message = userInput.value.trim();
+
+                if (message) {
+                    // Ajout du message utilisateur
+                    addMessage(`Vous: ${message}`, 'user-message');
+                    userInput.value = '';
+
+                    // Envoi au serveur
+                    socket.emit('user_message', { message: message });
+                }
+            });
+
+            // Réception des messages du bot
+            socket.on('bot_message', function (data) {
+                addMessage(`Assistant: ${data.response}`, 'bot-message');
+                updateProgressDisplay(data.progress || 0);
+            });
+
+            // Réception des erreurs
+            socket.on('error', function (data) {
+                addMessage(`Erreur: ${data.message}`, 'error-message');
+            });
+
+            // Réception des mises à jour de progression
+            socket.on('progress_update', function (data) {
+                updateProgressDisplay(data.progress);
+            });
+
+            // Fonction pour ajouter un message
+            function addMessage(text, type) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message-bubble ${type}`;
+                messageDiv.textContent = text;
+                messagesContainer.appendChild(messageDiv);
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }
+
+            // Fonction pour mettre à jour la progression
+            function updateProgressDisplay(progress) {
+                const percentage = Math.round(progress);
+                progressBar.style.width = `${percentage}%`;
+                progressText.textContent = `${percentage}% complété`;
+
+                // Changement de couleur selon la progression
+                progressBar.style.backgroundColor =
+                    percentage < 30 ? '#ff4d4d' :
+                    percentage < 70 ? '#ffcc00' : '#4CAF50';
+            }
+
+            // Vérification initiale de la session
+            socket.emit('check_session');
+        });
+    </script>
+
+{% endblock %}

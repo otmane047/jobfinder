@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Offres d'emploi{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h2 class="logo mb-3" style="display: inline-block;">Offres d'emploi</h2>
+
+        <form method="GET" class="form">
+            <div class="form-group">
+                <input type="text" name="keyword" placeholder="Rechercher par mot-clé..."
+                       value="{{ request.args.get('keyword', '') }}" class="form-input">
+            </div>
+            <button type="submit" class="form-button">Rechercher</button>
+        </form>
+
+        <div class="offers-grid">
+            {% for offre in offres %}
+                <div class="card">
+                    <h3 class="offer-title">{{ offre['Title'] }}</h3>  <!-- Title -->
+                    <p><strong>Entreprise:</strong> {{ offre['Company'] }}</p>  <!-- Company -->
+                    <p><strong>Localisation:</strong> {{ offre['Location'] }}</p>  <!-- Location -->
+                    <p><strong>Posté:</strong> {{ offre['Posted Time'] }}</p>  <!-- Posted Time -->
+                    <p><strong>Type:</strong> {{ offre['Employment Type'] }}</p>  <!-- Employment Type -->
+                    <a href="{{ offre['Job URL'] }}" target="_blank" class="btn">Voir l'offre</a>  <!-- Job URL -->
+                </div>
+            {% else %}
+                <div class="card">
+                    <p>Aucune offre trouvée.</p>
+                </div>
+            {% endfor %}
+
+        </div>
+    </div>
+{% endblock %}

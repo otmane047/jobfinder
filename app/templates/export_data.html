@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}Exporter Données{% endblock %}
+
+{% block content %}
+    <div class="text-center p-4">
+        <h2 class="logo mb-3" style="display: inline-block;">Exporter Mes Données</h2>
+
+        <form method="POST" action="/export" class="form">
+
+            <button type="submit" class="form-button">Générer l'Export ZIP</button>
+        </form>
+    </div>
+{% endblock %}

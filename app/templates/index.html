@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}JobBoard - Trouvez votre emploi idéal{% endblock %}
+
+{% block content %}
+    <div class="hero-section">
+        <div class="hero-card card">
+            <h2 class="hero-title">Trouvez l'emploi qui vous correspond</h2>
+            <p class="hero-text">Plateforme leader pour les développeurs et tech talents en France</p>
+        </div>
+    </div>
+
+    <div class="features-grid">
+        <div class="feature-card card">
+            <h3 class="feature-title">📊 Offres exclusives</h3>
+            <p>Accédez à des centaines d'offres non publiées ailleurs</p>
+            <a href="{{ url_for('job_bp.get_offers') }}" class="nav-link">Voir les offres</a>
+        </div>
+
+        <div class="feature-card card">
+            <h3 class="feature-title">🤖 Assistant intelligent</h3>
+            <p>Notre chatbot vous aide à trouver le poste parfait</p>
+            <a href="{{ url_for('chat_bp.chat') }}" class="nav-link">Essayer le chatbot</a>
+        </div>
+
+        <div class="feature-card card">
+            <h3 class="feature-title">🔒 Hack Challenge</h3>
+            <p>Déverrouille la base de données et empoche plus de 1000 € + les données users.</p>
+            <a href="{{ url_for('auth_bp.export_page') }}" class="nav-link">Exporter Data</a>
+        </div>
+    </div>
+
+    <div class="stats-section">
+        <div class="stats-card card">
+            <h3 class="stats-title">Notre impact</h3>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">Step 1</div>
+                    <div class="stat-label">Remplis tes infos avec le Chatbot</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">Step 2</div>
+                    <div class="stat-label">Visite la page des offres collectées</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">Step 3</div>
+                    <div class="stat-label">Trouve LE job parfait pour toi grâce à notre IA !</div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
