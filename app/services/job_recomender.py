@@ -10,7 +10,6 @@ def prepare_data(user, jobs):
     education_levels = {'Licence': 1, 'Bachelor': 1, 'Master': 2, 'Doctorat': 3}
 
     for job in jobs:
-        # Gestion robuste des compétences
         user_skills = set(skill.lower() for skill in user['skills'])
         job_skills = set(skill.lower() for skill in job['required_skills'])
 
@@ -61,4 +60,4 @@ def predict(user_profile, jobs):
         knn.named_steps['preprocessor'].transform(user_df)
     )
 
-    return indices[0]  # Retourne les indices des offres recommandées
+    return indices[0]
